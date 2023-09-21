@@ -1,4 +1,5 @@
 import { formatMoney } from "@/utils";
+
 type ProductListItemDescriptionProps = {
 	product: {
 		name: string;
