@@ -1,8 +1,9 @@
-import { type Product } from "@/types";
+import Link from "next/link";
+import { type ProductItem } from "@/types";
 import { ProductListItem } from "@/ui/molecules/ProductListItem";
 
 type ProductListProps = {
-	products: Product[];
+	products: ProductItem[];
 };
 
 export const ProductList = ({ products }: ProductListProps) => {
@@ -12,7 +13,9 @@ export const ProductList = ({ products }: ProductListProps) => {
 			className="grid grid-cols-1 gap-8 sm:grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
 		>
 			{products.map((product) => (
-				<ProductListItem {...{ product }} key={product.id} />
+				<Link href={`/product/${product.id}`} key={product.id}>
+					<ProductListItem {...{ product }} />
+				</Link>
 			))}
 		</ul>
 	);

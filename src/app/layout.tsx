@@ -1,7 +1,7 @@
-import Link from "next/link";
 import "./globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import { ActiveLink } from "@/ui/atoms";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -18,17 +18,27 @@ export default function RootLayout({
 	return (
 		<html lang="pl">
 			<body className={inter.className}>
-				<header className="mx-auto max-w-md p-12 sm:max-w-2xl sm:py-16 md:max-w-4xl lg:max-w-7xl">
+				<header>
 					<nav>
-						<ul aria-label="menu" className="flex">
-							<li className="p-2">
-								<Link href="/products">Products</Link>
+						<ul
+							aria-label="menu"
+							className="mt-2 flex justify-center space-x-4"
+						>
+							<li>
+								<ActiveLink href="/">Home</ActiveLink>
 							</li>
-							<li className="p-2">
-								<Link href="/private-policy">Private policy</Link>
+							<li>
+								<ActiveLink href="/products">Products</ActiveLink>
 							</li>
-							<li className="p-2">
-								<Link href="/regulations">Regulations</Link>
+							<li>
+								<ActiveLink href="/private-policy">
+									Private policy
+								</ActiveLink>
+							</li>
+							<li>
+								<ActiveLink href="/regulations">
+									Regulations
+								</ActiveLink>
 							</li>
 						</ul>
 					</nav>
