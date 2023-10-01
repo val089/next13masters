@@ -1,4 +1,5 @@
 import { Suspense } from "react";
+import { type Metadata } from "next";
 import { getProductById, getProducts } from "@/api/products";
 import { ProductCoverImage } from "@/ui/atoms/ProductCoverImage";
 import { SuggestedProducts } from "@/ui/organisms/SuggestedProducts";
@@ -15,6 +16,30 @@ export const generateStaticParams = async () => {
 	return products.map(({ id }) => ({ productId: id }));
 
 	// dzięki statycznym stronom będzie mnie uderzeń do bazy danych
+};
+
+export const generateMetadata = async ({
+	params,
+}: {
+	params: { productId: string };
+}): Promise<Metadata> => {
+	const { productId } = params;
+	const product = await getProductById(productId);
+
+	return {
+		title: `${product.title}`,
+		description: `${product.description}`,
+		// openGraph pozwala na wyświetlenie obrazka, tytułu, opisu itd. jeśli np wkleimy link do produktu na facebooku
+		openGraph: {
+			title: `${product.title}`,
+			description: `${product.description}`,
+			images: [
+				{
+					url: product.image,
+				},
+			],
+		},
+	};
 };
 
 export default async function ProductDetailsPage({
