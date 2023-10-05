@@ -28,9 +28,11 @@ export default function RootLayout({
 								<ActiveLink href="/">Home</ActiveLink>
 							</li>
 							<li>
-								<ActiveLink href="/products">Products</ActiveLink>
+								<ActiveLink exact={false} href="/products">
+									All
+								</ActiveLink>
 							</li>
-							<li>
+							{/* <li>
 								<ActiveLink href="/private-policy">
 									Private policy
 								</ActiveLink>
@@ -39,7 +41,7 @@ export default function RootLayout({
 								<ActiveLink href="/regulations">
 									Regulations
 								</ActiveLink>
-							</li>
+							</li> */}
 						</ul>
 					</nav>
 				</header>

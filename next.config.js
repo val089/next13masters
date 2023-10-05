@@ -19,6 +19,15 @@ const nextConfig = {
 		typedRoutes: true, //dzięki tej opcji mozemy podjerzeć jakie mamy pathy do stron
 		mdxRs: true, // moliwość obsługowania mardowna
 	},
+	redirects: async () => {
+		return [
+			{
+				source: "/products",
+				destination: "/products/1",
+				permanent: true,
+			},
+		];
+	},
 };
 
 module.exports = withMDX(nextConfig);

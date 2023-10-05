@@ -15,7 +15,7 @@ export const generateStaticParams = async () => {
 	// generujemy wszystkie strony produktu jako statyczne
 	return products.map(({ id }) => ({ productId: id }));
 
-	// dzięki statycznym stronom będzie mnie uderzeń do bazy danych
+	// dzięki statycznym stronom będzie mniej uderzeń do bazy danych
 };
 
 export const generateMetadata = async ({
@@ -59,7 +59,7 @@ export default async function ProductDetailsPage({
 	return (
 		<div>
 			<article className="max-w-xs">
-				<h1>Produc Details Page</h1>
+				<h1>{product.title}</h1>
 				{params.productId}
 				<p>REFERRAL: {referral}</p>
 				<div className="w-60">
@@ -68,6 +68,7 @@ export default async function ProductDetailsPage({
 						alt={product.title}
 					/>
 				</div>
+				<p>{product.description}</p>
 			</article>
 			<aside>
 				{/* dajemy suspense bo chcemy zobaczyć jak najszybciej szczegóły produktu, ale sugerowane produkty mogę być później załadowane */}
