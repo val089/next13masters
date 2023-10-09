@@ -1,6 +1,7 @@
 import "./globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import { ShoppingCart } from "lucide-react";
 import { ActiveLink } from "@/ui/atoms";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -18,7 +19,7 @@ export default function RootLayout({
 	return (
 		<html lang="pl">
 			<body className={inter.className}>
-				<header>
+				<header className="mx-auto flex max-w-md justify-between p-12 sm:max-w-2xl sm:py-16 md:max-w-4xl lg:max-w-7xl">
 					<nav>
 						<ul
 							aria-label="menu"
@@ -44,6 +45,7 @@ export default function RootLayout({
 							</li> */}
 						</ul>
 					</nav>
+					<ShoppingCart />
 				</header>
 				<section className="mx-auto max-w-md p-12 sm:max-w-2xl sm:py-16 md:max-w-4xl lg:max-w-7xl">
 					{children}
