@@ -6,13 +6,14 @@
 		"source.fixAll": true
 	},
 	"graphql-config.dotEnvPath": "./.env",
-	"graphql-config.load.configName": "graphql",
 	"files.associations": {
 		"*.css": "tailwindcss"
 	},
 	"editor.quickSuggestions": {
 		"strings": true
-	}
+	},
+	"graphql-config.load.filePath": ""
+	// "graphql-config.load.configName": "graphql"
 }
 
 // {

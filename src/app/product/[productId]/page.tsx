@@ -1,22 +1,28 @@
 import { Suspense } from "react";
 import { type Metadata } from "next";
-import { getProductById, getProducts } from "@/api/products";
-import { ProductCoverImage } from "@/ui/atoms/ProductCoverImage";
+import { notFound } from "next/navigation";
+import {
+	// getProductById,
+	getProductByIdGraphql,
+	// getProducts,
+} from "@/api/products";
+// import { ProductCoverImage } from "@/ui/atoms/ProductCoverImage";
 import { SuggestedProducts } from "@/ui/organisms/SuggestedProducts";
+import { ProductDetails } from "@/ui/organisms/ProductDetails";
 
 // nie musimy się przejmować ilością wywołań pobierania produktów, bo na serwerze pobierane są tylko raz
 // generujemy statyczne ściezki produktów, jeśl w cms ktoś np zmieni cene to trzeba zrobić build
 
-export const generateStaticParams = async () => {
-	const products = await getProducts();
-	// generujemy dwie statyczne strony produktu
-	// return products.map(({ id }) => ({ productId: id })).slice(0, 2);
+// export const generateStaticParams = async () => {
+// 	const products = await getProducts();
+// 	// generujemy dwie statyczne strony produktu
+// 	// return products.map(({ id }) => ({ productId: id })).slice(0, 2);
 
-	// generujemy wszystkie strony produktu jako statyczne
-	return products.map(({ id }) => ({ productId: id }));
+// 	// generujemy wszystkie strony produktu jako statyczne
+// 	return products.map(({ id }) => ({ productId: id }));
 
-	// dzięki statycznym stronom będzie mniej uderzeń do bazy danych
-};
+// 	// dzięki statycznym stronom będzie mniej uderzeń do bazy danych
+// };
 
 export const generateMetadata = async ({
 	params,
@@ -24,7 +30,11 @@ export const generateMetadata = async ({
 	params: { productId: string };
 }): Promise<Metadata> => {
 	const { productId } = params;
-	const product = await getProductById(productId);
+	const product = await getProductByIdGraphql(productId);
+
+	if (!product) {
+		notFound();
+	}
 
 	return {
 		title: `${product.title}`,
@@ -35,7 +45,7 @@ export const generateMetadata = async ({
 			description: `${product.description}`,
 			images: [
 				{
-					url: product.image,
+					url: product.image || "",
 				},
 			],
 		},
@@ -54,22 +64,17 @@ export default async function ProductDetailsPage({
 
 	const { productId } = params;
 
-	const product = await getProductById(productId);
+	// const product = await getProductById(productId);
+	const product = await getProductByIdGraphql(productId);
+
+	if (!product) {
+		return null;
+	}
 
 	return (
 		<div>
-			<article className="max-w-xs">
-				<h1>{product.title}</h1>
-				{params.productId}
-				<p>REFERRAL: {referral}</p>
-				<div className="w-60">
-					<ProductCoverImage
-						src={product.image}
-						alt={product.title}
-					/>
-				</div>
-				<p>{product.description}</p>
-			</article>
+			<p>REFERRAL: {referral}</p>
+			<ProductDetails {...{ product }} />
 			<aside>
 				{/* dajemy suspense bo chcemy zobaczyć jak najszybciej szczegóły produktu, ale sugerowane produkty mogę być później załadowane */}
 				<Suspense fallback="Loading...">
@@ -77,5 +82,25 @@ export default async function ProductDetailsPage({
 				</Suspense>
 			</aside>
 		</div>
+		// <div>
+		// 	<article className="max-w-xs">
+		// 		<h1>{product.title}</h1>
+		// 		{params.productId}
+		// 		<p>REFERRAL: {referral}</p>
+		// 		<div className="w-60">
+		// 			<ProductCoverImage
+		// 				src={product.image}
+		// 				alt={product.title}
+		// 			/>
+		// 		</div>
+		// 		<p>{product.description}</p>
+		// 	</article>
+		// <aside>
+		// 	{/* dajemy suspense bo chcemy zobaczyć jak najszybciej szczegóły produktu, ale sugerowane produkty mogę być później załadowane */}
+		// 	<Suspense fallback="Loading...">
+		// 		<SuggestedProducts />
+		// 	</Suspense>
+		// </aside>
+		// </div>
 	);
 }

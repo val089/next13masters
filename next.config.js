@@ -24,7 +24,7 @@ const nextConfig = {
 			{
 				source: "/products",
 				destination: "/products/1",
-				permanent: true,
+				permanent: true, //przeglądarka zrobi cache tego przekierowania
 			},
 		];
 	},

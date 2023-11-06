@@ -1,3 +1,8 @@
+// typowo odpowiedź z graphql'a
+export type GraphQLResponse<T> =
+	| { data?: undefined; errors: { message: string }[] }
+	| { data: T; errors?: undefined };
+
 export type ProductItem = {
 	id: string;
 	title: string;

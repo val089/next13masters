@@ -3,6 +3,8 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { ShoppingCart } from "lucide-react";
 import { ActiveLink } from "@/ui/atoms";
+import { Footer } from "@/ui/molecules/Footer";
+import { Header } from "@/ui/molecules/Header";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -18,41 +20,15 @@ export default function RootLayout({
 }) {
 	return (
 		<html lang="pl">
-			<body className={inter.className}>
-				<header className="mx-auto flex max-w-md justify-between p-12 sm:max-w-2xl sm:py-16 md:max-w-4xl lg:max-w-7xl">
-					<nav>
-						<ul
-							aria-label="menu"
-							className="mt-2 flex justify-center space-x-4"
-						>
-							<li>
-								<ActiveLink href="/">Home</ActiveLink>
-							</li>
-							<li>
-								<ActiveLink exact={false} href="/products">
-									All
-								</ActiveLink>
-							</li>
-							{/* <li>
-								<ActiveLink href="/private-policy">
-									Private policy
-								</ActiveLink>
-							</li>
-							<li>
-								<ActiveLink href="/regulations">
-									Regulations
-								</ActiveLink>
-							</li> */}
-						</ul>
-					</nav>
-					<ShoppingCart />
-				</header>
-				<section className="mx-auto max-w-md p-12 sm:max-w-2xl sm:py-16 md:max-w-4xl lg:max-w-7xl">
-					{children}
-				</section>
-				<footer className="text-center text-gray-500">
-					&copy; Kurs Next Masters 2023
-				</footer>
+			<body
+				className={
+					inter.className &&
+					"mx-auto max-w-md sm:max-w-2xl md:max-w-4xl lg:max-w-7xl"
+				}
+			>
+				<Header />
+				<section className="mx-auto">{children}</section>
+				<Footer />
 			</body>
 		</html>
 	);

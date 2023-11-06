@@ -7,7 +7,9 @@ export default function Layout({
 }) {
 	return (
 		<section>
-			<section className="bg-teal-100 p-10">{children}</section>
+			<section className="container mx-auto px-5 py-24">
+				{children}
+			</section>
 			<Pagination numberOfPages={10} />
 		</section>
 	);
