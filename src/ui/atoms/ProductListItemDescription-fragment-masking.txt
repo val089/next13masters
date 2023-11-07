@@ -1,0 +1,78 @@
+import { type ProductListItemFragment } from "@/gql/graphql";
+// import { type ProductItem } from "@/types";
+import { formatMoney } from "@/utils";
+import { FragmentType, getFragmentData, graphql } from "@/gql";
+
+// PRZYKŁAD Z FRAGMENT MASKING, przekazujemy tylko te propsy, które chcemy
+
+const ProductListItemDescription_Product = graphql(`
+	fragment ProductListItemDescription_Product on Product {
+		name
+		price
+		categories(first: 1) {
+			name
+		}
+	}
+`);
+
+type ProductListItemDescriptionProps = {
+	product: FragmentType<typeof ProductListItemDescription_Product>;
+};
+
+export const ProductListItemDescription = (
+	props: ProductListItemDescriptionProps,
+) => {
+	const { categories, name, price } = getFragmentData(
+		ProductListItemDescription_Product,
+		props.product,
+	);
+
+	return (
+		<div className="mt-4">
+			<h3 className="title-font mb-1 text-xs tracking-widest text-gray-500">
+				{categories?.map((category) => category.name)}
+			</h3>
+			<h2 className="title-font text-lg font-medium text-gray-900">
+				{name}
+			</h2>
+			<p className="mt-1 text-sm font-medium text-gray-900">
+				<span className="sr-only">Cena:</span>{" "}
+				{formatMoney(price / 100)}
+			</p>
+		</div>
+	);
+};
+
+/// PLIK .graphqlrc.ts
+import { loadEnvConfig } from "@next/env";
+import type { CodegenConfig } from "@graphql-codegen/cli";
+
+loadEnvConfig(process.cwd());
+
+const config: CodegenConfig = {
+	overwrite: true,
+	schema: process.env.GRAPHQL_URL,
+	documents: [
+		"src/graphql/*.graphql",
+		"src/{app,ui,api,lib}/**/*.{ts,tsx}",
+	],
+	ignoreNoDocuments: true,
+	generates: {
+		"src/gql/": {
+			preset: "client",
+			plugins: [],
+			presetConfig: {
+				fragmentMasking: { unmaskFunctionName: "getFragmentData" },
+			},
+			config: {
+				useTypeImports: true, //typy będą importowane jako type
+				enumsAsTypes: true, //enumy jako typy, poniewaz enumy zostają w bundlu jako wartości
+				defaultScalarType: "unknown",
+				skipTypename: true,
+				documentMode: "string",
+			},
+		},
+	},
+};
+
+export default config;

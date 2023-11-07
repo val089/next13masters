@@ -1,7 +1,8 @@
-import Link from "next/link";
 import "./globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import { Footer } from "@/ui/molecules/Footer";
+import { Header } from "@/ui/molecules/Header";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -17,28 +18,15 @@ export default function RootLayout({
 }) {
 	return (
 		<html lang="pl">
-			<body className={inter.className}>
-				<header className="mx-auto max-w-md p-12 sm:max-w-2xl sm:py-16 md:max-w-4xl lg:max-w-7xl">
-					<nav>
-						<ul aria-label="menu" className="flex">
-							<li className="p-2">
-								<Link href="/products">Products</Link>
-							</li>
-							<li className="p-2">
-								<Link href="/private-policy">Private policy</Link>
-							</li>
-							<li className="p-2">
-								<Link href="/regulations">Regulations</Link>
-							</li>
-						</ul>
-					</nav>
-				</header>
-				<section className="mx-auto max-w-md p-12 sm:max-w-2xl sm:py-16 md:max-w-4xl lg:max-w-7xl">
-					{children}
-				</section>
-				<footer className="text-center text-gray-500">
-					&copy; Kurs Next Masters 2023
-				</footer>
+			<body
+				className={
+					inter.className &&
+					"mx-auto max-w-md sm:max-w-2xl md:max-w-4xl lg:max-w-7xl"
+				}
+			>
+				<Header />
+				<section className="mx-auto">{children}</section>
+				<Footer />
 			</body>
 		</html>
 	);
