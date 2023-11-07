@@ -1,10 +1,10 @@
 import { notFound } from "next/navigation";
 import {
-	executeGraphql,
+	// executeGraphql,
 	getProductsByCategorySlug,
 } from "@/api/products";
-import { ProductsGetByCategorySlugDocument } from "@/gql/graphql";
-import { ProductItem } from "@/types";
+// import { ProductsGetByCategorySlugDocument } from "@/gql/graphql";
+// import { ProductItem } from "@/types";
 import { ProductList } from "@/ui/organisms/ProductList";
 
 // parametry, które zostały uzyte wyzej, mozemy uzyc jako argumenty

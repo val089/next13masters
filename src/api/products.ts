@@ -66,7 +66,7 @@ export const getProductsGraphql = async (): Promise<
 
 export const getProductsByCategorySlug = async (
 	categorySlug: string,
-) => {
+): Promise<ProductListItemFragment[] | undefined> => {
 	const categories = await executeGraphql(
 		ProductsGetByCategorySlugDocument,
 		{ slug: categorySlug },
@@ -74,19 +74,7 @@ export const getProductsByCategorySlug = async (
 
 	const products = categories.categories[0]?.products;
 
-	return products?.map((product) => ({
-		id: product.id,
-		title: product.name,
-		price: product.price,
-		description: product.description,
-		category: product.categories[0]?.name || "",
-		rating: {
-			rate: 1,
-			count: 1,
-		},
-		image: product.images[0]?.url || "",
-		longDescription: "",
-	}));
+	return products;
 };
 
 export const getProductByIdGraphql = async (

@@ -37,15 +37,15 @@ export const generateMetadata = async ({
 	}
 
 	return {
-		title: `${product.title}`,
+		title: `${product.name}`,
 		description: `${product.description}`,
 		// openGraph pozwala na wyświetlenie obrazka, tytułu, opisu itd. jeśli np wkleimy link do produktu na facebooku
 		openGraph: {
-			title: `${product.title}`,
+			title: `${product.name}`,
 			description: `${product.description}`,
 			images: [
 				{
-					url: product.image || "",
+					url: product.images[0]?.url || "",
 				},
 			],
 		},
