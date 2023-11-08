@@ -1,3 +1,4 @@
+import NextImage from "next/image";
 import { Button } from "../atoms/Button";
 import { formatMoney } from "@/utils";
 // import { type ProductItem } from "@/types";
@@ -12,7 +13,9 @@ export const ProductDetails = ({ product }: ProductDetailsProps) => {
 		<section className="body-font overflow-hidden text-gray-600">
 			<div className="container mx-auto px-5 py-24">
 				<div className="mx-auto flex flex-wrap lg:w-4/5">
-					<img
+					<NextImage
+						width={600}
+						height={600}
 						alt="ecommerce"
 						className="h-64 w-full rounded object-cover object-center lg:h-auto lg:w-1/2"
 						src={product.images[0]?.url}

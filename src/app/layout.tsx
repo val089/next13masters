@@ -1,10 +1,14 @@
 import "./globals.css";
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Inter, Poppins } from "next/font/google";
 import { Footer } from "@/ui/molecules/Footer";
 import { Header } from "@/ui/molecules/Header";
 
-const inter = Inter({ subsets: ["latin"] });
+// const inter = Inter({ subsets: ["latin"] });
+const inter = Poppins({
+	subsets: ["latin", "latin-ext"],
+	weight: ["400", "700"],
+});
 
 export const metadata: Metadata = {
 	title: "Home",

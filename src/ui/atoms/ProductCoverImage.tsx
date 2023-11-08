@@ -1,3 +1,5 @@
+import NextImage from "next/image";
+
 interface ProductCoverImageProps {
 	alt: string;
 	src: string | undefined;
@@ -10,7 +12,7 @@ export const ProductCoverImage = ({
 	return (
 		<div className="relative block h-48 overflow-hidden rounded">
 			{src ? (
-				<img
+				<NextImage
 					width={320}
 					height={320}
 					alt={alt}

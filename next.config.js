@@ -19,6 +19,14 @@ const nextConfig = {
 		typedRoutes: true, //dzięki tej opcji mozemy podjerzeć jakie mamy pathy do stron
 		mdxRs: true, // moliwość obsługowania mardowna
 	},
+	images: {
+		remotePatterns: [
+			{
+				protocol: "https",
+				hostname: "media.graphassets.com",
+			},
+		],
+	},
 	redirects: async () => {
 		return [
 			{
