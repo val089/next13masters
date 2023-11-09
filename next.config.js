@@ -25,6 +25,10 @@ const nextConfig = {
 				protocol: "https",
 				hostname: "media.graphassets.com",
 			},
+			{
+				protocol: "https",
+				hostname: "dummyimage.com",
+			},
 		],
 	},
 	redirects: async () => {

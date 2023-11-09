@@ -10762,6 +10762,15 @@ export type _SystemDateTimeFieldVariation =
   | 'combined'
   | 'localization';
 
+export type CollectionListFragment = { collections: Array<{ name: string, slug: string, description?: string | null, products: Array<{ name: string }>, image: { url: string } }> };
+
+export type CollectionListItemFragment = { name: string, slug: string, description?: string | null, products: Array<{ name: string }>, image: { url: string } };
+
+export type CollectionsGetListQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type CollectionsGetListQuery = { collections: Array<{ name: string, slug: string, description?: string | null, products: Array<{ name: string }>, image: { url: string } }> };
+
 export type ProductGetByIdQueryVariables = Exact<{
   id: Scalars['ID']['input'];
 }>;
@@ -10799,6 +10808,36 @@ export class TypedDocumentString<TResult, TVariables>
     return this.value;
   }
 }
+export const CollectionListItemFragmentDoc = new TypedDocumentString(`
+    fragment CollectionListItem on Collection {
+  name
+  slug
+  description
+  products(first: 10) {
+    name
+  }
+  image {
+    url
+  }
+}
+    `, {"fragmentName":"CollectionListItem"}) as unknown as TypedDocumentString<CollectionListItemFragment, unknown>;
+export const CollectionListFragmentDoc = new TypedDocumentString(`
+    fragment CollectionList on Query {
+  collections(first: 10) {
+    ...CollectionListItem
+  }
+}
+    fragment CollectionListItem on Collection {
+  name
+  slug
+  description
+  products(first: 10) {
+    name
+  }
+  image {
+    url
+  }
+}`, {"fragmentName":"CollectionList"}) as unknown as TypedDocumentString<CollectionListFragment, unknown>;
 export const ProductListItemFragmentDoc = new TypedDocumentString(`
     fragment ProductListItem on Product {
   id
@@ -10833,6 +10872,26 @@ export const ProductListFragmentDoc = new TypedDocumentString(`
     name
   }
 }`, {"fragmentName":"ProductList"}) as unknown as TypedDocumentString<ProductListFragment, unknown>;
+export const CollectionsGetListDocument = new TypedDocumentString(`
+    query CollectionsGetList {
+  ...CollectionList
+}
+    fragment CollectionList on Query {
+  collections(first: 10) {
+    ...CollectionListItem
+  }
+}
+fragment CollectionListItem on Collection {
+  name
+  slug
+  description
+  products(first: 10) {
+    name
+  }
+  image {
+    url
+  }
+}`) as unknown as TypedDocumentString<CollectionsGetListQuery, CollectionsGetListQueryVariables>;
 export const ProductGetByIdDocument = new TypedDocumentString(`
     query ProductGetById($id: ID!) {
   product(where: {id: $id}) {

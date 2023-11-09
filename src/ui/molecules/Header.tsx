@@ -46,6 +46,26 @@ export const Header = () => {
 						</li>
 						<li>
 							<ActiveLink
+								exact={false}
+								href="/categories"
+								className="mr-5 hover:text-blue-600"
+								activeClassName="text-blue-600"
+							>
+								Categories
+							</ActiveLink>
+						</li>
+						<li>
+							<ActiveLink
+								exact={false}
+								href="/collections"
+								className="mr-5 hover:text-blue-600"
+								activeClassName="text-blue-600"
+							>
+								Collections
+							</ActiveLink>
+						</li>
+						<li>
+							<ActiveLink
 								href="/private-policy"
 								className="mr-5 hover:text-blue-600"
 								activeClassName="text-blue-600"

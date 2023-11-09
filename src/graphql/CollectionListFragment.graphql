@@ -1,0 +1,5 @@
+fragment CollectionList on Query {
+	collections(first: 10) {
+		...CollectionListItem
+	}
+}
