@@ -9,5 +9,10 @@ export const SuggestedProducts = async () => {
 	const products = await getProductsGraphql();
 	await sleep(5000);
 
-	return <ProductList products={products.slice(-4)} />;
+	return (
+		<ProductList
+			products={products.slice(-4)}
+			testId="related-products"
+		/>
+	);
 };

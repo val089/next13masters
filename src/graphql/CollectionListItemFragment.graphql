@@ -3,7 +3,7 @@ fragment CollectionListItem on Collection {
 	slug
 	description
 	products(first: 10) {
-		name
+		...ProductListItem
 	}
 	image {
 		url
