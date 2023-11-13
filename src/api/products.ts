@@ -7,6 +7,7 @@ import {
 	ProductsGetListDocument,
 	ProductsGetByCollectionSlugDocument,
 	type CollectionListItemFragment,
+	type ProductDetailsFragment,
 } from "@/gql/graphql";
 
 const restApiUrl = "https://naszsklep-api.vercel.app/api";
@@ -80,8 +81,8 @@ export const getProductsByCategorySlug = async (
 };
 
 export const getProductByIdGraphql = async (
-	id: ProductListItemFragment["id"],
-): Promise<ProductListItemFragment | null | undefined> => {
+	id: ProductDetailsFragment["id"],
+): Promise<ProductDetailsFragment | null | undefined> => {
 	const { product } = await executeGraphql(ProductGetByIdDocument, {
 		id,
 	});

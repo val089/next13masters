@@ -2,4 +2,10 @@ query ProductsGetList {
 	products(first: 10) {
 		...ProductListItem
 	}
+	# zwraca liczbę produktów
+	# productsConnection {
+	# 	aggregate {
+	# 		count
+	# 	}
+	# }
 }

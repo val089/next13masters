@@ -10771,16 +10771,24 @@ export type CollectionsGetListQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type CollectionsGetListQuery = { collections: Array<{ name: string, slug: string, description?: string | null, products: Array<{ id: string, name: string, description: string, price: number, images: Array<{ url: string }>, categories: Array<{ name: string }> }>, image: { url: string } }> };
 
+export type ProductDetailsFragment = { id: string, name: string, description: string, price: number, variants: Array<{ id: string, name: string, color: ProductColor } | { id: string, name: string, color: ProductColor, size: ProductSize } | { id: string, name: string, size: ProductSize }>, images: Array<{ url: string }>, categories: Array<{ name: string }> };
+
 export type ProductGetByIdQueryVariables = Exact<{
   id: Scalars['ID']['input'];
 }>;
 
 
-export type ProductGetByIdQuery = { product?: { id: string, name: string, description: string, price: number, images: Array<{ url: string }>, categories: Array<{ name: string }> } | null };
+export type ProductGetByIdQuery = { product?: { id: string, name: string, description: string, price: number, variants: Array<{ id: string, name: string, color: ProductColor } | { id: string, name: string, color: ProductColor, size: ProductSize } | { id: string, name: string, size: ProductSize }>, images: Array<{ url: string }>, categories: Array<{ name: string }> } | null };
 
 export type ProductListFragment = { products: Array<{ id: string, name: string, description: string, price: number, images: Array<{ url: string }>, categories: Array<{ name: string }> }> };
 
 export type ProductListItemFragment = { id: string, name: string, description: string, price: number, images: Array<{ url: string }>, categories: Array<{ name: string }> };
+
+export type SingleProductSizeColorVariantFragment = { id: string, name: string, color: ProductColor, size: ProductSize };
+
+export type SingleProductColorVariantFragment = { id: string, name: string, color: ProductColor };
+
+export type SingleProductSizeVariantFragment = { id: string, name: string, size: ProductSize };
 
 export type ProductsGetByCategorySlugQueryVariables = Exact<{
   slug: Scalars['String']['input'];
@@ -10885,6 +10893,72 @@ fragment ProductListItem on Product {
     name
   }
 }`, {"fragmentName":"CollectionList"}) as unknown as TypedDocumentString<CollectionListFragment, unknown>;
+export const SingleProductColorVariantFragmentDoc = new TypedDocumentString(`
+    fragment SingleProductColorVariant on ProductColorVariant {
+  id
+  name
+  color
+}
+    `, {"fragmentName":"SingleProductColorVariant"}) as unknown as TypedDocumentString<SingleProductColorVariantFragment, unknown>;
+export const SingleProductSizeColorVariantFragmentDoc = new TypedDocumentString(`
+    fragment SingleProductSizeColorVariant on ProductSizeColorVariant {
+  id
+  name
+  color
+  size
+}
+    `, {"fragmentName":"SingleProductSizeColorVariant"}) as unknown as TypedDocumentString<SingleProductSizeColorVariantFragment, unknown>;
+export const SingleProductSizeVariantFragmentDoc = new TypedDocumentString(`
+    fragment SingleProductSizeVariant on ProductSizeVariant {
+  id
+  name
+  size
+}
+    `, {"fragmentName":"SingleProductSizeVariant"}) as unknown as TypedDocumentString<SingleProductSizeVariantFragment, unknown>;
+export const ProductDetailsFragmentDoc = new TypedDocumentString(`
+    fragment ProductDetails on Product {
+  ...ProductListItem
+  variants {
+    ... on ProductColorVariant {
+      ...SingleProductColorVariant
+    }
+    ... on ProductSizeColorVariant {
+      ...SingleProductSizeColorVariant
+    }
+    ... on ProductSizeVariant {
+      ...SingleProductSizeVariant
+    }
+  }
+}
+    fragment ProductListItem on Product {
+  id
+  name
+  description
+  images(first: 1) {
+    url
+  }
+  price
+  description
+  categories(first: 1) {
+    name
+  }
+}
+fragment SingleProductSizeColorVariant on ProductSizeColorVariant {
+  id
+  name
+  color
+  size
+}
+fragment SingleProductColorVariant on ProductColorVariant {
+  id
+  name
+  color
+}
+fragment SingleProductSizeVariant on ProductSizeVariant {
+  id
+  name
+  size
+}`, {"fragmentName":"ProductDetails"}) as unknown as TypedDocumentString<ProductDetailsFragment, unknown>;
 export const ProductListFragmentDoc = new TypedDocumentString(`
     fragment ProductList on Query {
   products(first: 10) {
@@ -10940,10 +11014,24 @@ fragment ProductListItem on Product {
 export const ProductGetByIdDocument = new TypedDocumentString(`
     query ProductGetById($id: ID!) {
   product(where: {id: $id}) {
-    ...ProductListItem
+    ...ProductDetails
   }
 }
-    fragment ProductListItem on Product {
+    fragment ProductDetails on Product {
+  ...ProductListItem
+  variants {
+    ... on ProductColorVariant {
+      ...SingleProductColorVariant
+    }
+    ... on ProductSizeColorVariant {
+      ...SingleProductSizeColorVariant
+    }
+    ... on ProductSizeVariant {
+      ...SingleProductSizeVariant
+    }
+  }
+}
+fragment ProductListItem on Product {
   id
   name
   description
@@ -10955,6 +11043,22 @@ export const ProductGetByIdDocument = new TypedDocumentString(`
   categories(first: 1) {
     name
   }
+}
+fragment SingleProductSizeColorVariant on ProductSizeColorVariant {
+  id
+  name
+  color
+  size
+}
+fragment SingleProductColorVariant on ProductColorVariant {
+  id
+  name
+  color
+}
+fragment SingleProductSizeVariant on ProductSizeVariant {
+  id
+  name
+  size
 }`) as unknown as TypedDocumentString<ProductGetByIdQuery, ProductGetByIdQueryVariables>;
 export const ProductsGetByCategorySlugDocument = new TypedDocumentString(`
     query ProductsGetByCategorySlug($slug: String!) {
