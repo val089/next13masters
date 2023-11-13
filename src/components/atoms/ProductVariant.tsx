@@ -12,7 +12,7 @@ type VariantsProps = {
 	variants: VariantsType;
 };
 
-export const ProductSize = ({ variants }: VariantsProps) => {
+export const ProductVariant = ({ variants }: VariantsProps) => {
 	const pathname = usePathname();
 	const router = useRouter();
 	const searchParams = useSearchParams();
@@ -29,29 +29,25 @@ export const ProductSize = ({ variants }: VariantsProps) => {
 
 	// mozna uzyć tez komponentu Link, tylko nie w select. Z Link najłatwiej
 	return (
-		<div className="ml-6 flex items-center">
-			<span className="mr-3">Size</span>
+		<div className="flex items-center">
+			<span className="mr-3">Size/Color</span>
 			<div className="relative">
 				<select
 					className="appearance-none rounded border border-gray-300 py-2 pl-3 pr-10 text-base focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-200"
-					value={searchParams.get("size") || "Choose size"}
+					value={searchParams.get("variant") || "Choose Size/Color"}
 					onChange={(e) =>
 						router.push(
 							`${pathname}?${createQueryString(
-								"size",
+								"variant",
 								e.target.value,
 							)}` as Route,
 						)
 					}
 				>
-					<option disabled>Choose size</option>
-					{variants.map((variant) => {
-						if ("size" in variant) {
-							return <option key={variant.id}>{variant.size}</option>;
-						} else {
-							return null;
-						}
-					})}
+					<option disabled>Choose Size/Color</option>
+					{variants.map((variant) => (
+						<option key={variant.id}>{variant.name}</option>
+					))}
 				</select>
 				<span className="pointer-events-none absolute right-0 top-0 flex h-full w-10 items-center justify-center text-center text-gray-600">
 					<svg

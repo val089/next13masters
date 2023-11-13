@@ -1,6 +1,6 @@
 import NextImage from "next/image";
 import { Button } from "../atoms/Button";
-import { ProductSize } from "../atoms/ProductVariants";
+import { ProductVariant } from "../atoms";
 import { formatMoney } from "@/utils";
 // import { type ProductItem } from "@/types";
 import { type ProductDetailsFragment } from "@/gql/graphql";
@@ -129,13 +129,7 @@ export const ProductDetails = ({ product }: ProductDetailsProps) => {
 						</div>
 						<p className="leading-relaxed">{product.description}</p>
 						<div className="mb-5 mt-6 flex items-center border-b-2 border-gray-100 pb-5">
-							<div className="flex">
-								<span className="mr-3">Color</span>
-								<button className="h-6 w-6 rounded-full border-2 border-gray-300 focus:outline-none"></button>
-								<button className="ml-1 h-6 w-6 rounded-full border-2 border-gray-300 bg-gray-700 focus:outline-none"></button>
-								<button className="ml-1 h-6 w-6 rounded-full border-2 border-gray-300 bg-indigo-500 focus:outline-none"></button>
-							</div>
-							<ProductSize
+							<ProductVariant
 								variants={product.variants as VariantsType}
 							/>
 						</div>
