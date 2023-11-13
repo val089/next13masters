@@ -1,5 +1,5 @@
 import { getProductsByCollectionSlug } from "@/api/products";
-import { ProductList } from "@/ui/organisms/ProductList";
+import { ProductList } from "@/components/organisms/ProductList";
 
 export default async function CollectionDetailsPage({
 	params,

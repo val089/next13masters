@@ -1,4 +1,4 @@
-import { Pagination } from "@/ui/molecules/Pagination";
+import { Pagination } from "@/components/molecules/Pagination";
 
 export default function Layout({
 	children,

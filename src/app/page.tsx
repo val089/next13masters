@@ -1,5 +1,5 @@
-import { ProductCounter } from "@/ui/atoms/ProductCounter";
-import { ProductList } from "@/ui/organisms/ProductList";
+import { ProductCounter } from "@/components/atoms/ProductCounter";
+import { ProductList } from "@/components/organisms/ProductList";
 import {
 	// getProducts,
 	getProductsGraphql,

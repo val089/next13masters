@@ -5,7 +5,7 @@ import {
 } from "@/api/products";
 // import { ProductsGetByCategorySlugDocument } from "@/gql/graphql";
 // import { ProductItem } from "@/types";
-import { ProductList } from "@/ui/organisms/ProductList";
+import { ProductList } from "@/components/organisms/ProductList";
 
 // parametry, które zostały uzyte wyzej, mozemy uzyc jako argumenty
 export const generateStaticParams = async ({

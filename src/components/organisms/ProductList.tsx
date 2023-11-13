@@ -1,5 +1,5 @@
 import { type ProductListItemFragment } from "@/gql/graphql";
-import { ProductListItem } from "@/ui/molecules/ProductListItem";
+import { ProductListItem } from "@/components/molecules/ProductListItem";
 
 type ProductListProps = {
 	products: ProductListItemFragment[];

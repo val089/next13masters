@@ -1,8 +1,8 @@
 import "./globals.css";
 import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
-import { Footer } from "@/ui/molecules/Footer";
-import { Header } from "@/ui/molecules/Header";
+import { Footer } from "@/components/molecules/Footer";
+import { Header } from "@/components/molecules/Header";
 
 const inter = Poppins({
 	subsets: ["latin", "latin-ext"],

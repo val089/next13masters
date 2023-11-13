@@ -1,4 +1,4 @@
-import { ProductList } from "@/ui/organisms/ProductList";
+import { ProductList } from "@/components/organisms/ProductList";
 import {
 	// getProducts,
 	getProductsGraphql,

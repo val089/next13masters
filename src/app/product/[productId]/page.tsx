@@ -7,8 +7,8 @@ import {
 	// getProducts,
 } from "@/api/products";
 // import { ProductCoverImage } from "@/ui/atoms/ProductCoverImage";
-import { SuggestedProducts } from "@/ui/organisms/SuggestedProducts";
-import { ProductDetails } from "@/ui/organisms/ProductDetails";
+import { SuggestedProducts } from "@/components/organisms/SuggestedProducts";
+import { ProductDetails } from "@/components/organisms/ProductDetails";
 
 // nie musimy się przejmować ilością wywołań pobierania produktów, bo na serwerze pobierane są tylko raz
 // generujemy statyczne ściezki produktów, jeśl w cms ktoś np zmieni cene to trzeba zrobić build
