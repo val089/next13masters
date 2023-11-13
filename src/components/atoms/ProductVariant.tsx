@@ -27,6 +27,10 @@ export const ProductVariant = ({ variants }: VariantsProps) => {
 		[searchParams],
 	);
 
+	if (!variants.length) {
+		return null;
+	}
+
 	// mozna uzyć tez komponentu Link, tylko nie w select. Z Link najłatwiej
 	return (
 		<div className="flex items-center">
