@@ -1,6 +1,7 @@
 import { Suspense } from "react";
 import { type Metadata } from "next";
 import { notFound } from "next/navigation";
+import { Loader } from "@/components/atoms";
 import {
 	// getProductById,
 	getProductByIdGraphql,
@@ -79,7 +80,7 @@ export default async function ProductDetailsPage({
 			<ProductDetails {...{ product }} />
 			<aside>
 				{/* dajemy suspense bo chcemy zobaczyć jak najszybciej szczegóły produktu, ale sugerowane produkty mogę być później załadowane */}
-				<Suspense fallback="Loading...">
+				<Suspense fallback={<Loader />}>
 					<SuggestedProducts {...{ productId, categorySlug }} />
 				</Suspense>
 			</aside>

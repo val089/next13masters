@@ -21,7 +21,6 @@ export default async function Products({
 	params: { page: number };
 }) {
 	// const products = await getProducts(params.page);
-	console.log(params);
 	const products = await getProductsGraphql(params.page);
 
 	return <ProductList products={products} />;

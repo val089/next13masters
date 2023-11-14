@@ -30,6 +30,11 @@ export const SuggestedProducts = async ({
 	}
 
 	return (
-		<ProductList products={products} testId="related-products" />
+		<section className="px-5">
+			<h3 className="mb-4 text-2xl font-medium">
+				Suggested products
+			</h3>
+			<ProductList products={products} testId="related-products" />
+		</section>
 	);
 };
