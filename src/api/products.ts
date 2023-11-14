@@ -9,6 +9,7 @@ import {
 	type CollectionListItemFragment,
 	type ProductDetailsFragment,
 	ProductsGetTotalCountDocument,
+	SuggestedProductsGetByProductIdAndCategorySlugDocument,
 } from "@/gql/graphql";
 import { productsPerPage } from "@/utils";
 
@@ -104,3 +105,17 @@ export const getProductsTotalCountGraphql =
 
 		return graphqlResponse.productsConnection.aggregate.count;
 	};
+
+export const getSuggestedProducts = async (
+	categorySlug: string,
+	productId: string,
+): Promise<ProductListItemFragment[] | undefined> => {
+	const categories = await executeGraphql(
+		SuggestedProductsGetByProductIdAndCategorySlugDocument,
+		{ slug: categorySlug, productId },
+	);
+
+	const products = categories.categories[0]?.products;
+
+	return products;
+};

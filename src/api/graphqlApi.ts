@@ -24,7 +24,10 @@ export const executeGraphql = async <TResult, TVariables>(
 		(await res.json()) as GraphQLResponse<TResult>;
 
 	if (graphqlResponse.errors) {
-		throw TypeError(`GraphQL Error`, {
+		const errorMessage = graphqlResponse.errors[0]
+			? graphqlResponse.errors[0].message
+			: "";
+		throw TypeError(`GraphQL Error: ${errorMessage}`, {
 			cause: graphqlResponse.errors, //cause nowy feature w EcmaScript
 		});
 	}

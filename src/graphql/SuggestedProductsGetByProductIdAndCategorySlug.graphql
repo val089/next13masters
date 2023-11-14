@@ -1,0 +1,10 @@
+query SuggestedProductsGetByProductIdAndCategorySlug(
+	$slug: String!
+	$productId: ID!
+) {
+	categories(where: { slug: $slug }) {
+		products(where: { NOT: { id: $productId } }, first: 4) {
+			...ProductListItem
+		}
+	}
+}

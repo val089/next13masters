@@ -71,6 +71,8 @@ export default async function ProductDetailsPage({
 		return null;
 	}
 
+	const categorySlug = product.categories[0]?.slug;
+
 	return (
 		<div>
 			<p>REFERRAL: {referral}</p>
@@ -78,7 +80,7 @@ export default async function ProductDetailsPage({
 			<aside>
 				{/* dajemy suspense bo chcemy zobaczyć jak najszybciej szczegóły produktu, ale sugerowane produkty mogę być później załadowane */}
 				<Suspense fallback="Loading...">
-					<SuggestedProducts />
+					<SuggestedProducts {...{ productId, categorySlug }} />
 				</Suspense>
 			</aside>
 		</div>

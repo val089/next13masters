@@ -20,12 +20,13 @@ const documents = {
     "fragment ProductDetails on Product {\n  ...ProductListItem\n  variants {\n    ... on ProductColorVariant {\n      ...SingleProductColorVariant\n    }\n    ... on ProductSizeColorVariant {\n      ...SingleProductSizeColorVariant\n    }\n    ... on ProductSizeVariant {\n      ...SingleProductSizeVariant\n    }\n  }\n}": types.ProductDetailsFragmentDoc,
     "query ProductGetById($id: ID!) {\n  product(where: {id: $id}) {\n    ...ProductDetails\n  }\n}": types.ProductGetByIdDocument,
     "fragment ProductList on Query {\n  products(first: 10) {\n    ...ProductListItem\n  }\n}": types.ProductListFragmentDoc,
-    "fragment ProductListItem on Product {\n  id\n  name\n  description\n  images(first: 1) {\n    url\n  }\n  price\n  description\n  categories(first: 1) {\n    name\n  }\n}": types.ProductListItemFragmentDoc,
+    "fragment ProductListItem on Product {\n  id\n  name\n  description\n  images(first: 1) {\n    url\n  }\n  price\n  description\n  categories(first: 1) {\n    name\n    slug\n  }\n}": types.ProductListItemFragmentDoc,
     "fragment SingleProductSizeColorVariant on ProductSizeColorVariant {\n  id\n  name\n  color\n  size\n}\n\nfragment SingleProductColorVariant on ProductColorVariant {\n  id\n  name\n  color\n}\n\nfragment SingleProductSizeVariant on ProductSizeVariant {\n  id\n  name\n  size\n}": types.SingleProductSizeColorVariantFragmentDoc,
     "query ProductsGetByCategorySlug($slug: String!) {\n  categories(where: {slug: $slug}) {\n    products(first: 10) {\n      ...ProductListItem\n    }\n  }\n}": types.ProductsGetByCategorySlugDocument,
     "query ProductsGetByCollectionSlug($slug: String!) {\n  collections(where: {slug: $slug}) {\n    ...CollectionListItem\n  }\n}": types.ProductsGetByCollectionSlugDocument,
     "query ProductsGetList($first: Int!, $skip: Int!) {\n  products(first: $first, skip: $skip) {\n    ...ProductListItem\n  }\n}": types.ProductsGetListDocument,
     "query ProductsGetTotalCount {\n  productsConnection {\n    aggregate {\n      count\n    }\n  }\n}": types.ProductsGetTotalCountDocument,
+    "query SuggestedProductsGetByProductIdAndCategorySlug($slug: String!, $productId: ID!) {\n  categories(where: {slug: $slug}) {\n    products(where: {NOT: {id: $productId}}, first: 4) {\n      ...ProductListItem\n    }\n  }\n}": types.SuggestedProductsGetByProductIdAndCategorySlugDocument,
 };
 
 /**
@@ -55,7 +56,7 @@ export function graphql(source: "fragment ProductList on Query {\n  products(fir
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "fragment ProductListItem on Product {\n  id\n  name\n  description\n  images(first: 1) {\n    url\n  }\n  price\n  description\n  categories(first: 1) {\n    name\n  }\n}"): typeof import('./graphql').ProductListItemFragmentDoc;
+export function graphql(source: "fragment ProductListItem on Product {\n  id\n  name\n  description\n  images(first: 1) {\n    url\n  }\n  price\n  description\n  categories(first: 1) {\n    name\n    slug\n  }\n}"): typeof import('./graphql').ProductListItemFragmentDoc;
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
@@ -76,6 +77,10 @@ export function graphql(source: "query ProductsGetList($first: Int!, $skip: Int!
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(source: "query ProductsGetTotalCount {\n  productsConnection {\n    aggregate {\n      count\n    }\n  }\n}"): typeof import('./graphql').ProductsGetTotalCountDocument;
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "query SuggestedProductsGetByProductIdAndCategorySlug($slug: String!, $productId: ID!) {\n  categories(where: {slug: $slug}) {\n    products(where: {NOT: {id: $productId}}, first: 4) {\n      ...ProductListItem\n    }\n  }\n}"): typeof import('./graphql').SuggestedProductsGetByProductIdAndCategorySlugDocument;
 
 
 export function graphql(source: string) {
