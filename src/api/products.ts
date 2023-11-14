@@ -8,7 +8,9 @@ import {
 	ProductsGetByCollectionSlugDocument,
 	type CollectionListItemFragment,
 	type ProductDetailsFragment,
+	ProductsGetTotalCountDocument,
 } from "@/gql/graphql";
+import { productsPerPage } from "@/utils";
 
 const restApiUrl = "https://naszsklep-api.vercel.app/api";
 
@@ -42,27 +44,19 @@ export const getProductById = async (id: ProductItem["id"]) => {
 };
 
 // dzięki server components nie musimy uzywać ApolloClient, dlatego uzywamy fetcha; ogranicza to znacznie liczbę paczek
-export const getProductsGraphql = async (): Promise<
-	ProductListItemFragment[]
-> => {
+export const getProductsGraphql = async (
+	pageNumber: number,
+	take = productsPerPage,
+): Promise<ProductListItemFragment[]> => {
+	const offset = (pageNumber - 1) * take;
+
 	const graphqlResponse = await executeGraphql(
 		ProductsGetListDocument,
-		{},
+		{
+			first: take,
+			skip: offset,
+		},
 	);
-
-	// const products = graphqlResponse.products.map((product) => ({
-	// 	id: product.id,
-	// 	title: product.name,
-	// 	price: product.price,
-	// 	description: product.description,
-	// 	category: product.categories[0]?.name || "",
-	// 	rating: {
-	// 		rate: 1,
-	// 		count: 1,
-	// 	},
-	// 	image: product.images[0]?.url || "",
-	// 	longDescription: "",
-	// }));
 
 	return graphqlResponse.products;
 };
@@ -100,3 +94,13 @@ export const getProductsByCollectionSlug = async (
 
 	return collection.collections;
 };
+
+export const getProductsTotalCountGraphql =
+	async (): Promise<number> => {
+		const graphqlResponse = await executeGraphql(
+			ProductsGetTotalCountDocument,
+			{},
+		);
+
+		return graphqlResponse.productsConnection.aggregate.count;
+	};

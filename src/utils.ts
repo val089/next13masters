@@ -3,3 +3,5 @@ export const formatMoney = (amount: number) =>
 		style: "currency",
 		currency: "USD",
 	}).format(amount);
+
+export const productsPerPage = 10;
