@@ -1,16 +1,48 @@
 import NextImage from "next/image";
+import { cookies } from "next/headers";
 import { Button } from "../atoms/Button";
 import { ProductVariant } from "../atoms";
 import { formatMoney } from "@/utils";
 // import { type ProductItem } from "@/types";
-import { type ProductDetailsFragment } from "@/gql/graphql";
+import {
+	CartCreateDocument,
+	type CartFragment,
+	CartGetByIdDocument,
+	type ProductDetailsFragment,
+	CartAddProductDocument,
+	ProductGetByIdDocument,
+} from "@/gql/graphql";
 import { type VariantsType } from "@/types";
+import { executeGraphql } from "@/api/graphqlApi";
 
 type ProductDetailsProps = {
 	product: ProductDetailsFragment;
 };
 
 export const ProductDetails = ({ product }: ProductDetailsProps) => {
+	/**
+	 * - server actions mogą być wykonywane w client components
+	 * - form i server actions zadziała nawet gdy jest wyłączona obsługa javascript w przeglądarce
+	 * - mogę przekazać dane poprzez formData, a take mogę odwołać się do propsów w komponencie
+	 * - dzięki formAction znacznie mniej są potrzebne biblioteki do formularzy(zwłaszcza do prostych formularzy), przy bardziej skomplikowanych zalecane są biblioteki
+	 * - na serwerze nie wyciekną zadne API keys np. przez stripe bo wwszystko dzieje się na serwerze nie na cliencie
+	 * */
+	async function addtoCartAction(formData: FormData) {
+		"use server";
+		// console.log(product.id);
+		console.log(formData);
+
+		const cart = await getOrCreateCart();
+		// to cookie dzieje się na serwerze i wysyła specjalny nagłówek; mozemy takze dodać ustawienia dla ciastek
+		// dzięki ustawieniom mozemy zadbać o to zeby usunąć koszyk po jakimś czasie, a nie, ze ktoś po kilku miesiącach wejdzie i będzie miał dalej te koszyk
+		cookies().set("cartId", cart.id, {
+			httpOnly: true,
+			sameSite: "lax",
+			// secure: true //ciastka dostęone tylko przez https
+		});
+		await addtoCart(cart.id, product.id);
+	}
+
 	return (
 		<section className="body-font overflow-hidden text-gray-600">
 			<div className="container mx-auto px-5 py-24">
@@ -137,7 +169,15 @@ export const ProductDetails = ({ product }: ProductDetailsProps) => {
 							<span className="title-font text-2xl font-medium text-gray-900">
 								{formatMoney(product.price / 100)}
 							</span>
-							<Button>Button</Button>
+							<form action={addtoCartAction} className="ml-auto">
+								<input
+									type="hidden"
+									name="productId"
+									value={product.id}
+								/>
+								<Button type="submit">Add to cart</Button>
+							</form>
+
 							<button className="ml-4 inline-flex h-10 w-10 items-center justify-center rounded-full border-0 bg-gray-200 p-0 text-gray-500">
 								<svg
 									fill="currentColor"
@@ -157,3 +197,46 @@ export const ProductDetails = ({ product }: ProductDetailsProps) => {
 		</section>
 	);
 };
+
+async function getOrCreateCart(): Promise<CartFragment> {
+	// cookie pobierane jest na serwerze
+	const cartId = cookies().get("cartId")?.value;
+	if (cartId) {
+		const cart = await getCartById(cartId);
+		// sprawdzamy czy cart istnieje, bo moze tez zostać usunięty z serwera
+		if (cart.order) {
+			return cart.order;
+		}
+	}
+
+	const { createOrder: newCart } = await createCart();
+	if (!newCart) {
+		throw new Error("Failed to create cart.");
+	}
+	cookies().set("cartId", newCart.id);
+	return newCart;
+}
+
+async function getCartById(cartId: string) {
+	return executeGraphql(CartGetByIdDocument, { cartId });
+}
+
+function createCart() {
+	return executeGraphql(CartCreateDocument, {});
+}
+
+async function addtoCart(orderId: string, productId: string) {
+	const { product } = await executeGraphql(ProductGetByIdDocument, {
+		id: productId,
+	});
+
+	if (!product) {
+		throw new Error(`Product with id ${productId} not found`);
+	}
+
+	await executeGraphql(CartAddProductDocument, {
+		orderId,
+		productId,
+		total: product.price,
+	});
+}

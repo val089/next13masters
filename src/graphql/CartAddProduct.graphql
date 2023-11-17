@@ -1,0 +1,19 @@
+# total niekoniecznie jest potrzebne, ale jest wymagane w hygrapie
+mutation CartAddProduct(
+	$orderId: ID!
+	$total: Int!
+	$productId: ID!
+) {
+	# dodaj tutaj upserta, czyli update lub insert
+	createOrderItem(
+		data: {
+			quantity: 1
+			total: $total
+			# connect to relacja
+			product: { connect: { id: $productId } }
+			order: { connect: { id: $orderId } }
+		}
+	) {
+		id
+	}
+}

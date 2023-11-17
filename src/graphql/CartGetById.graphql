@@ -1,0 +1,7 @@
+# pobieramy koszyk o statusie DRAFT z hygrapha
+
+query CartGetById($cartId: ID!) {
+	order(where: { id: $cartId }, stage: DRAFT) {
+		...Cart
+	}
+}
