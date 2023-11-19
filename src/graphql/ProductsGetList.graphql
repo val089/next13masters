@@ -1,5 +1,13 @@
-query ProductsGetList($first: Int!, $skip: Int!) {
-	products(first: $first, skip: $skip) {
+query ProductsGetList(
+	$first: Int!
+	$skip: Int!
+	$nameContains: String
+) {
+	products(
+		first: $first
+		skip: $skip
+		where: { name_contains: $nameContains }
+	) {
 		...ProductListItem
 	}
 	# zwraca liczbę produktów

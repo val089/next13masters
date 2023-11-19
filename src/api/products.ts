@@ -47,6 +47,7 @@ export const getProductById = async (id: ProductItem["id"]) => {
 // dzięki server components nie musimy uzywać ApolloClient, dlatego uzywamy fetcha; ogranicza to znacznie liczbę paczek
 export const getProductsGraphql = async (
 	pageNumber: number,
+	searchQuery = "",
 	take = productsPerPage,
 ): Promise<ProductListItemFragment[]> => {
 	const offset = (pageNumber - 1) * take;
@@ -56,6 +57,7 @@ export const getProductsGraphql = async (
 		{
 			first: take,
 			skip: offset,
+			nameContains: searchQuery,
 		},
 	);
 

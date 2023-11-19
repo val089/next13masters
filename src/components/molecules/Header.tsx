@@ -1,5 +1,8 @@
+"use client";
+
 import { ShoppingCart } from "lucide-react";
 import { ActiveLink } from "../atoms";
+import { SearchBar } from "./SearchBar";
 
 export const Header = () => {
 	return (
@@ -20,6 +23,7 @@ export const Header = () => {
 					</svg>
 					<span className="ml-3 text-xl">Tailblocks</span>
 				</a>
+				<SearchBar />
 				<nav className="flex flex-wrap items-center justify-center text-base md:ml-auto">
 					<ul
 						aria-label="menu"

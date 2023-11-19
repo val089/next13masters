@@ -10830,10 +10830,20 @@ export type ProductsGetByCollectionSlugQuery = { collections: Array<{ name: stri
 export type ProductsGetListQueryVariables = Exact<{
   first: Scalars['Int']['input'];
   skip: Scalars['Int']['input'];
+  nameContains?: InputMaybe<Scalars['String']['input']>;
 }>;
 
 
 export type ProductsGetListQuery = { products: Array<{ id: string, name: string, description: string, price: number, images: Array<{ url: string }>, categories: Array<{ name: string, slug: string }> }> };
+
+export type ProductsGetListBySearchQueryVariables = Exact<{
+  first: Scalars['Int']['input'];
+  skip: Scalars['Int']['input'];
+  nameContains?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+
+export type ProductsGetListBySearchQuery = { products: Array<{ id: string, name: string, description: string, price: number, images: Array<{ url: string }>, categories: Array<{ name: string, slug: string }> }> };
 
 export type ProductsGetTotalCountQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -11192,8 +11202,8 @@ fragment ProductListItem on Product {
   }
 }`) as unknown as TypedDocumentString<ProductsGetByCollectionSlugQuery, ProductsGetByCollectionSlugQueryVariables>;
 export const ProductsGetListDocument = new TypedDocumentString(`
-    query ProductsGetList($first: Int!, $skip: Int!) {
-  products(first: $first, skip: $skip) {
+    query ProductsGetList($first: Int!, $skip: Int!, $nameContains: String) {
+  products(first: $first, skip: $skip, where: {name_contains: $nameContains}) {
     ...ProductListItem
   }
 }
@@ -11211,6 +11221,26 @@ export const ProductsGetListDocument = new TypedDocumentString(`
     slug
   }
 }`) as unknown as TypedDocumentString<ProductsGetListQuery, ProductsGetListQueryVariables>;
+export const ProductsGetListBySearchDocument = new TypedDocumentString(`
+    query ProductsGetListBySearch($first: Int!, $skip: Int!, $nameContains: String) {
+  products(first: $first, skip: $skip, where: {name_contains: $nameContains}) {
+    ...ProductListItem
+  }
+}
+    fragment ProductListItem on Product {
+  id
+  name
+  description
+  images(first: 1) {
+    url
+  }
+  price
+  description
+  categories(first: 1) {
+    name
+    slug
+  }
+}`) as unknown as TypedDocumentString<ProductsGetListBySearchQuery, ProductsGetListBySearchQueryVariables>;
 export const ProductsGetTotalCountDocument = new TypedDocumentString(`
     query ProductsGetTotalCount {
   productsConnection {

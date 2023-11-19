@@ -38,6 +38,11 @@ const nextConfig = {
 				destination: "/products/1",
 				permanent: true, //przeglądarka zrobi cache tego przekierowania
 			},
+			{
+				source: "/search",
+				destination: "/search/1",
+				permanent: true, //przeglądarka zrobi cache tego przekierowania
+			},
 		];
 	},
 };
