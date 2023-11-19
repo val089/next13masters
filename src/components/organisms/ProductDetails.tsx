@@ -2,6 +2,7 @@ import NextImage from "next/image";
 import { cookies } from "next/headers";
 import { Button } from "../atoms/Button";
 import { ProductVariant } from "../atoms";
+import { AddToCartButton } from "../molecules";
 import { formatMoney } from "@/utils";
 // import { type ProductItem } from "@/types";
 import {
@@ -40,6 +41,7 @@ export const ProductDetails = ({ product }: ProductDetailsProps) => {
 			sameSite: "lax",
 			// secure: true //ciastka dostęone tylko przez https
 		});
+
 		await addtoCart(cart.id, product.id);
 	}
 
@@ -175,7 +177,7 @@ export const ProductDetails = ({ product }: ProductDetailsProps) => {
 									name="productId"
 									value={product.id}
 								/>
-								<Button type="submit">Add to cart</Button>
+								<AddToCartButton />
 							</form>
 
 							<button className="ml-4 inline-flex h-10 w-10 items-center justify-center rounded-full border-0 bg-gray-200 p-0 text-gray-500">
